@@ -12,22 +12,37 @@ import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Cart from "./pages/Cart";
+import { Provider } from "react-redux";
+import { store } from "./store";
+import { createContext } from "react";
+import Checkout from "./pages/Checkout";
+import { AuthProvider } from "./firebase/Auth";
 
-const DefaultLayout = () => {
-  return <h1>This is my router</h1>;
-};
+export const selectedCategoryContext = createContext();
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
       <Route index element={<Home />} />
-      <Route path="/cart" element={<Cart/>} />
+      <Route path="/cart" element={<Cart />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/checkout" element={<Checkout />} />
     </Route>
   )
 );
 const App = () => {
-  return <RouterProvider router={router} />;
+
+  const [category, setCategory] = useState("All");
+
+  return (
+    <AuthProvider>
+      <selectedCategoryContext.Provider value={[category, setCategory]}>
+        <Provider store={store}>
+          <RouterProvider router={router} />{" "}
+        </Provider>
+      </selectedCategoryContext.Provider>
+    </AuthProvider>
+  );
 };
 
 export default App;
