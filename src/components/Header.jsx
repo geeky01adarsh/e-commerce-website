@@ -157,6 +157,7 @@ const Header = () => {
   const cartItems = useSelector((state) => state.cart?.value);
   const cartItemsCount = getItemCount(cartItems);
   const theme = useTheme();
+  const navigate = useNavigate();
 
 const StyledLink = styled(Link)(({ theme }) => ({
   color: theme.palette.common.white,
@@ -185,7 +186,7 @@ const StyledLink = styled(Link)(({ theme }) => ({
             </IconButton>
           </Link>
         </Box>
-        <Button color="inherit">Login</Button>
+        <Button color="inherit" onClick={()=>navigate('/login')}>Login</Button>
       </Toolbar>
     </AppBar>
   );
